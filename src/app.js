@@ -5,6 +5,7 @@ const patientRecordRoutes = require("./routes/patientRecordRoutes");
 const diagnosisRoutes = require("./routes/diagnosisRoutes");
 const encounterRoutes = require("./routes/encounterRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
+const medicalHistoryRoutes = require("./routes/medicalHistoryRoutes");
 
 const app = express();
 
@@ -32,5 +33,8 @@ app.use("/api/patients", encounterRoutes);
 
 // Prescription API
 app.use("/api/patients", prescriptionRoutes);
+
+// Medical History API
+app.use("/api/patients", medicalHistoryRoutes);
 
 module.exports = app;
