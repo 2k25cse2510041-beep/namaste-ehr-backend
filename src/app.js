@@ -12,6 +12,7 @@ const labReportRoutes = require("./routes/labReportRoutes");
 const immunizationRoutes = require("./routes/immunizationRoutes");
 const clinicalNoteRoutes = require("./routes/clinicalNoteRoutes");
 const familyHistoryRoutes = require("./routes/familyHistoryRoutes");
+const socialHistoryRoutes = require("./routes/socialHistoryRoutes");
 
 const app = express();
 
@@ -60,5 +61,8 @@ app.use("/api/patients", clinicalNoteRoutes);
 
 // Family History API
 app.use("/api/patients", familyHistoryRoutes);
+
+// Social History API
+app.use("/api/patients", socialHistoryRoutes);
 
 module.exports = app;
