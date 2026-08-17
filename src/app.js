@@ -17,6 +17,7 @@ const surgicalHistoryRoutes = require("./routes/surgicalHistoryRoutes");
 const medicationHistoryRoutes = require("./routes/medicationHistoryRoutes");
 const procedureRoutes = require("./routes/procedureRoutes");
 const diagnosisHistoryRoutes = require("./routes/diagnosisHistoryRoutes");
+const diagnosisSummaryRoutes = require("./routes/diagnosisSummaryRoutes");
 
 const app = express();
 
@@ -80,5 +81,8 @@ app.use("/api/patients", procedureRoutes);
 
 // Diagnosis History API
 app.use("/api/patients", diagnosisHistoryRoutes);
+
+// Diagnosis Summary API
+app.use("/api/patients", diagnosisSummaryRoutes);
 
 module.exports = app;
