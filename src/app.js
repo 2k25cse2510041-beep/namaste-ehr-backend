@@ -9,6 +9,7 @@ const medicalHistoryRoutes = require("./routes/medicalHistoryRoutes");
 const allergyRoutes = require("./routes/allergyRoutes");
 const vitalSignsRoutes = require("./routes/vitalSignsRoutes");
 const labReportRoutes = require("./routes/labReportRoutes");
+const immunizationRoutes = require("./routes/immunizationRoutes");
 
 const app = express();
 
@@ -48,5 +49,8 @@ app.use("/api/patients", vitalSignsRoutes);
 
 // Lab Reports API
 app.use("/api/patients", labReportRoutes);
+
+// Immunization API
+app.use("/api/patients", immunizationRoutes);
 
 module.exports = app;
