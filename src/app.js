@@ -1,5 +1,7 @@
 const express = require("express");
+
 const patientRoutes = require("./routes/patientRoutes");
+const patientRecordRoutes = require("./routes/patientRecordRoutes");
 
 const app = express();
 
@@ -12,6 +14,10 @@ app.get("/", (req, res) => {
     });
 });
 
+// Patient API
 app.use("/api/patients", patientRoutes);
+
+// Patient Records API
+app.use("/api/patients", patientRecordRoutes);
 
 module.exports = app;
