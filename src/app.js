@@ -18,6 +18,7 @@ const medicationHistoryRoutes = require("./routes/medicationHistoryRoutes");
 const procedureRoutes = require("./routes/procedureRoutes");
 const diagnosisHistoryRoutes = require("./routes/diagnosisHistoryRoutes");
 const diagnosisSummaryRoutes = require("./routes/diagnosisSummaryRoutes");
+const namasteTerminologyRoutes = require("./routes/namasteTerminologyRoutes");
 
 const app = express();
 
@@ -84,5 +85,8 @@ app.use("/api/patients", diagnosisHistoryRoutes);
 
 // Diagnosis Summary API
 app.use("/api/patients", diagnosisSummaryRoutes);
+
+// NAMASTE Terminology API
+app.use("/api/namaste-terminology", namasteTerminologyRoutes);
 
 module.exports = app;
