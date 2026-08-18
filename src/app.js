@@ -31,6 +31,9 @@ const interoperabilityRoutes = require("./routes/interoperabilityRoutes");
 // Unified Clinical Summary
 const clinicalSummaryRoutes = require("./routes/clinicalSummaryRoutes");
 
+// FHIR-style EHR Exchange
+const fhirRoutes = require("./routes/fhirRoutes");
+
 const app = express();
 
 
@@ -57,58 +60,23 @@ app.get("/", (req, res) => {
 // EHR APIs
 // =====================================================
 
-// Patient API
 app.use("/api/patients", patientRoutes);
-
-// Patient Records API
 app.use("/api/patients", patientRecordRoutes);
-
-// Diagnosis API
 app.use("/api/patients", diagnosisRoutes);
-
-// Encounter API
 app.use("/api/patients", encounterRoutes);
-
-// Prescription API
 app.use("/api/patients", prescriptionRoutes);
-
-// Medical History API
 app.use("/api/patients", medicalHistoryRoutes);
-
-// Allergy API
 app.use("/api/patients", allergyRoutes);
-
-// Vital Signs API
 app.use("/api/patients", vitalSignsRoutes);
-
-// Lab Reports API
 app.use("/api/patients", labReportRoutes);
-
-// Immunization API
 app.use("/api/patients", immunizationRoutes);
-
-// Clinical Notes API
 app.use("/api/patients", clinicalNoteRoutes);
-
-// Family History API
 app.use("/api/patients", familyHistoryRoutes);
-
-// Social History API
 app.use("/api/patients", socialHistoryRoutes);
-
-// Surgical History API
 app.use("/api/patients", surgicalHistoryRoutes);
-
-// Medication History API
 app.use("/api/patients", medicationHistoryRoutes);
-
-// Procedures API
 app.use("/api/patients", procedureRoutes);
-
-// Diagnosis History API
 app.use("/api/patients", diagnosisHistoryRoutes);
-
-// Diagnosis Summary API
 app.use("/api/patients", diagnosisSummaryRoutes);
 
 
@@ -149,6 +117,16 @@ app.use(
 app.use(
     "/api/clinical-summary",
     clinicalSummaryRoutes
+);
+
+
+// =====================================================
+// FHIR-STYLE EHR EXCHANGE
+// =====================================================
+
+app.use(
+    "/api/fhir",
+    fhirRoutes
 );
 
 
