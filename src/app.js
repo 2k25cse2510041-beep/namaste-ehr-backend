@@ -25,6 +25,9 @@ const namasteTerminologyRoutes = require("./routes/namasteTerminologyRoutes");
 // NAMASTE ↔ ICD-11 Mapping
 const namasteIcdMappingRoutes = require("./routes/namasteIcdMappingRoutes");
 
+// EHR Interoperability
+const interoperabilityRoutes = require("./routes/interoperabilityRoutes");
+
 const app = express();
 
 
@@ -123,6 +126,16 @@ app.use(
 app.use(
     "/api/namaste-icd-mappings",
     namasteIcdMappingRoutes
+);
+
+
+// =====================================================
+// EHR INTEROPERABILITY
+// =====================================================
+
+app.use(
+    "/api/interoperability",
+    interoperabilityRoutes
 );
 
 
