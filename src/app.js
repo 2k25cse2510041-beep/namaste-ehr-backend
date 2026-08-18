@@ -18,19 +18,38 @@ const medicationHistoryRoutes = require("./routes/medicationHistoryRoutes");
 const procedureRoutes = require("./routes/procedureRoutes");
 const diagnosisHistoryRoutes = require("./routes/diagnosisHistoryRoutes");
 const diagnosisSummaryRoutes = require("./routes/diagnosisSummaryRoutes");
+
+// NAMASTE Terminology
 const namasteTerminologyRoutes = require("./routes/namasteTerminologyRoutes");
+
+// NAMASTE ↔ ICD-11 Mapping
+const namasteIcdMappingRoutes = require("./routes/namasteIcdMappingRoutes");
 
 const app = express();
 
+
+// =====================================================
+// MIDDLEWARE
+// =====================================================
+
 app.use(express.json());
 
-// Root route
+
+// =====================================================
+// ROOT ROUTE
+// =====================================================
+
 app.get("/", (req, res) => {
     res.json({
         success: true,
         message: "NAMASTE EHR Backend is running"
     });
 });
+
+
+// =====================================================
+// EHR APIs
+// =====================================================
 
 // Patient API
 app.use("/api/patients", patientRoutes);
@@ -86,7 +105,41 @@ app.use("/api/patients", diagnosisHistoryRoutes);
 // Diagnosis Summary API
 app.use("/api/patients", diagnosisSummaryRoutes);
 
-// NAMASTE Terminology API
-app.use("/api/namaste-terminology", namasteTerminologyRoutes);
+
+// =====================================================
+// NAMASTE TERMINOLOGY
+// =====================================================
+
+app.use(
+    "/api/namaste-terminology",
+    namasteTerminologyRoutes
+);
+
+
+// =====================================================
+// NAMASTE ↔ ICD-11 MAPPING
+// =====================================================
+
+app.use(
+    "/api/namaste-icd-mappings",
+    namasteIcdMappingRoutes
+);
+
+
+// =====================================================
+// 404 HANDLER
+// =====================================================
+
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Route not found"
+    });
+});
+
+
+// =====================================================
+// EXPORT APP
+// =====================================================
 
 module.exports = app;
