@@ -28,6 +28,9 @@ const namasteIcdMappingRoutes = require("./routes/namasteIcdMappingRoutes");
 // EHR Interoperability
 const interoperabilityRoutes = require("./routes/interoperabilityRoutes");
 
+// Unified Clinical Summary
+const clinicalSummaryRoutes = require("./routes/clinicalSummaryRoutes");
+
 const app = express();
 
 
@@ -136,6 +139,16 @@ app.use(
 app.use(
     "/api/interoperability",
     interoperabilityRoutes
+);
+
+
+// =====================================================
+// UNIFIED CLINICAL SUMMARY
+// =====================================================
+
+app.use(
+    "/api/clinical-summary",
+    clinicalSummaryRoutes
 );
 
 
