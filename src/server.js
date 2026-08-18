@@ -1,7 +1,15 @@
 const app = require("./app");
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+const server = app.listen(PORT, "127.0.0.1", () => {
+    console.log(`Server running on http://127.0.0.1:${PORT}`);
 });
+
+server.on("error", (error) => {
+    console.error("SERVER ERROR:", error);
+});
+
+setInterval(() => {
+    console.log("Server is still alive...");
+}, 5000);

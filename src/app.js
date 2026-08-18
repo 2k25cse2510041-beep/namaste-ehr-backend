@@ -19,6 +19,9 @@ const procedureRoutes = require("./routes/procedureRoutes");
 const diagnosisHistoryRoutes = require("./routes/diagnosisHistoryRoutes");
 const diagnosisSummaryRoutes = require("./routes/diagnosisSummaryRoutes");
 
+// Dashboard
+const dashboardRoutes = require("./routes/dashboardRoutes");
+
 // NAMASTE Terminology
 const namasteTerminologyRoutes = require("./routes/namasteTerminologyRoutes");
 
@@ -57,26 +60,50 @@ app.get("/", (req, res) => {
 
 
 // =====================================================
+// DASHBOARD
+// =====================================================
+
+app.use("/api/dashboard", dashboardRoutes);
+
+
+// =====================================================
 // EHR APIs
 // =====================================================
 
 app.use("/api/patients", patientRoutes);
+
 app.use("/api/patients", patientRecordRoutes);
+
 app.use("/api/patients", diagnosisRoutes);
+
 app.use("/api/patients", encounterRoutes);
+
 app.use("/api/patients", prescriptionRoutes);
+
 app.use("/api/patients", medicalHistoryRoutes);
+
 app.use("/api/patients", allergyRoutes);
+
 app.use("/api/patients", vitalSignsRoutes);
+
 app.use("/api/patients", labReportRoutes);
+
 app.use("/api/patients", immunizationRoutes);
+
 app.use("/api/patients", clinicalNoteRoutes);
+
 app.use("/api/patients", familyHistoryRoutes);
+
 app.use("/api/patients", socialHistoryRoutes);
+
 app.use("/api/patients", surgicalHistoryRoutes);
+
 app.use("/api/patients", medicationHistoryRoutes);
+
 app.use("/api/patients", procedureRoutes);
+
 app.use("/api/patients", diagnosisHistoryRoutes);
+
 app.use("/api/patients", diagnosisSummaryRoutes);
 
 
