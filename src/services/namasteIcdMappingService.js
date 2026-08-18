@@ -7,7 +7,7 @@ let mappingRecords = [
         icd11Term: "Gastro-oesophageal reflux disease",
         mappingType: "Equivalent",
         confidence: "High",
-        status: "Active",
+        status: "Verified",
         notes: "Initial standardized mapping for EHR interoperability.",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -20,7 +20,7 @@ let mappingRecords = [
         icd11Term: "Asthma",
         mappingType: "Related",
         confidence: "Moderate",
-        status: "Active",
+        status: "Pending",
         notes: "Mapping requires clinical context for final interpretation.",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -29,11 +29,20 @@ let mappingRecords = [
 
 let nextMappingId = 3;
 
-// Create mapping
+
+// =====================================================
+// CREATE MAPPING
+// =====================================================
+
 const createMapping = (mappingData) => {
+
     const record = {
         id: nextMappingId++,
         ...mappingData,
+
+        // New mappings require verification
+        status: mappingData.status || "Pending",
+
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     };
@@ -43,20 +52,34 @@ const createMapping = (mappingData) => {
     return record;
 };
 
-// Get all mappings
+
+// =====================================================
+// GET ALL MAPPINGS
+// =====================================================
+
 const getAllMappings = () => {
     return mappingRecords;
 };
 
-// Get mapping by ID
+
+// =====================================================
+// GET MAPPING BY ID
+// =====================================================
+
 const getMappingById = (id) => {
+
     return mappingRecords.find(
         record => record.id === Number(id)
     );
 };
 
-// Find mapping by NAMASTE code
+
+// =====================================================
+// GET BY NAMASTE CODE
+// =====================================================
+
 const getMappingByNamasteCode = (namasteCode) => {
+
     return mappingRecords.filter(
         record =>
             record.namasteCode.toLowerCase() ===
@@ -64,8 +87,13 @@ const getMappingByNamasteCode = (namasteCode) => {
     );
 };
 
-// Search mappings
+
+// =====================================================
+// SEARCH MAPPINGS
+// =====================================================
+
 const searchMappings = (query) => {
+
     const searchTerm = query.toLowerCase();
 
     return mappingRecords.filter(record =>
@@ -76,8 +104,13 @@ const searchMappings = (query) => {
     );
 };
 
-// Update mapping
+
+// =====================================================
+// UPDATE MAPPING
+// =====================================================
+
 const updateMapping = (id, mappingData) => {
+
     const record = getMappingById(id);
 
     if (!record) {
@@ -91,8 +124,13 @@ const updateMapping = (id, mappingData) => {
     return record;
 };
 
-// Delete mapping
+
+// =====================================================
+// DELETE MAPPING
+// =====================================================
+
 const deleteMapping = (id) => {
+
     const index = mappingRecords.findIndex(
         record => record.id === Number(id)
     );
@@ -108,6 +146,123 @@ const deleteMapping = (id) => {
     return deletedRecord;
 };
 
+
+// =====================================================
+// VERIFICATION
+// =====================================================
+
+// Get mappings by verification status
+
+const getMappingsByStatus = (status) => {
+
+    return mappingRecords.filter(
+        record =>
+            record.status.toLowerCase() ===
+            status.toLowerCase()
+    );
+};
+
+
+// Get pending mappings
+
+const getPendingMappings = () => {
+
+    return getMappingsByStatus("Pending");
+};
+
+
+// Get verified mappings
+
+const getVerifiedMappings = () => {
+
+    return getMappingsByStatus("Verified");
+};
+
+
+// Get rejected mappings
+
+const getRejectedMappings = () => {
+
+    return getMappingsByStatus("Rejected");
+};
+
+
+// Get modified mappings
+
+const getModifiedMappings = () => {
+
+    return getMappingsByStatus("Modified");
+};
+
+
+// Verify mapping
+
+const verifyMapping = (id, verificationData = {}) => {
+
+    const record = getMappingById(id);
+
+    if (!record) {
+        return null;
+    }
+
+    record.status = "Verified";
+
+    if (verificationData.notes !== undefined) {
+        record.notes = verificationData.notes;
+    }
+
+    record.verifiedAt = new Date().toISOString();
+
+    record.updatedAt = new Date().toISOString();
+
+    return record;
+};
+
+
+// Reject mapping
+
+const rejectMapping = (id, verificationData = {}) => {
+
+    const record = getMappingById(id);
+
+    if (!record) {
+        return null;
+    }
+
+    record.status = "Rejected";
+
+    if (verificationData.notes !== undefined) {
+        record.notes = verificationData.notes;
+    }
+
+    record.rejectedAt = new Date().toISOString();
+
+    record.updatedAt = new Date().toISOString();
+
+    return record;
+};
+
+
+// Modify mapping and mark as modified
+
+const modifyMapping = (id, mappingData) => {
+
+    const record = getMappingById(id);
+
+    if (!record) {
+        return null;
+    }
+
+    Object.assign(record, mappingData);
+
+    record.status = "Modified";
+
+    record.updatedAt = new Date().toISOString();
+
+    return record;
+};
+
+
 module.exports = {
     createMapping,
     getAllMappings,
@@ -115,5 +270,15 @@ module.exports = {
     getMappingByNamasteCode,
     searchMappings,
     updateMapping,
-    deleteMapping
+    deleteMapping,
+
+    // Verification
+    getMappingsByStatus,
+    getPendingMappings,
+    getVerifiedMappings,
+    getRejectedMappings,
+    getModifiedMappings,
+    verifyMapping,
+    rejectMapping,
+    modifyMapping
 };
