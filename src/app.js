@@ -1,58 +1,69 @@
 const express = require("express");
 
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+// =====================================================
+// ROUTES
+// =====================================================
+
 const patientRoutes = require("./routes/patientRoutes");
 const patientRecordRoutes = require("./routes/patientRecordRoutes");
+
 const diagnosisRoutes = require("./routes/diagnosisRoutes");
-const encounterRoutes = require("./routes/encounterRoutes");
-const prescriptionRoutes = require("./routes/prescriptionRoutes");
-const medicalHistoryRoutes = require("./routes/medicalHistoryRoutes");
-const allergyRoutes = require("./routes/allergyRoutes");
-const vitalSignsRoutes = require("./routes/vitalSignsRoutes");
-const labReportRoutes = require("./routes/labReportRoutes");
-const immunizationRoutes = require("./routes/immunizationRoutes");
-const clinicalNoteRoutes = require("./routes/clinicalNoteRoutes");
-const familyHistoryRoutes = require("./routes/familyHistoryRoutes");
-const socialHistoryRoutes = require("./routes/socialHistoryRoutes");
-const surgicalHistoryRoutes = require("./routes/surgicalHistoryRoutes");
-const medicationHistoryRoutes = require("./routes/medicationHistoryRoutes");
-const procedureRoutes = require("./routes/procedureRoutes");
 const diagnosisHistoryRoutes = require("./routes/diagnosisHistoryRoutes");
 const diagnosisSummaryRoutes = require("./routes/diagnosisSummaryRoutes");
 
-// Dashboard
-const dashboardRoutes = require("./routes/dashboardRoutes");
+const prescriptionRoutes = require("./routes/prescriptionRoutes");
+const medicationHistoryRoutes = require("./routes/medicationHistoryRoutes");
 
-// NAMASTE Terminology
-const namasteTerminologyRoutes = require("./routes/namasteTerminologyRoutes");
+const procedureRoutes = require("./routes/procedureRoutes");
 
-// NAMASTE ↔ ICD-11 Mapping
-const namasteIcdMappingRoutes = require("./routes/namasteIcdMappingRoutes");
+const allergyRoutes = require("./routes/allergyRoutes");
 
-// EHR Interoperability
-const interoperabilityRoutes = require("./routes/interoperabilityRoutes");
+const vitalSignsRoutes = require("./routes/vitalSignsRoutes");
 
-// Unified Clinical Summary
+const labReportRoutes = require("./routes/labReportRoutes");
+
+const clinicalNoteRoutes = require("./routes/clinicalNoteRoutes");
 const clinicalSummaryRoutes = require("./routes/clinicalSummaryRoutes");
 
-// FHIR-style EHR Exchange
-const fhirRoutes = require("./routes/fhirRoutes");
+const encounterRoutes = require("./routes/encounterRoutes");
 
-const app = express();
+const familyHistoryRoutes = require("./routes/familyHistoryRoutes");
+const medicalHistoryRoutes = require("./routes/medicalHistoryRoutes");
+const socialHistoryRoutes = require("./routes/socialHistoryRoutes");
+const surgicalHistoryRoutes = require("./routes/surgicalHistoryRoutes");
+const immunizationRoutes = require("./routes/immunizationRoutes");
+
+const namasteTerminologyRoutes =
+    require("./routes/namasteTerminologyRoutes");
+
+const namasteIcdMappingRoutes =
+    require("./routes/namasteIcdMappingRoutes");
+
+const interoperabilityRoutes =
+    require("./routes/interoperabilityRoutes");
+
+const fhirRoutes =
+    require("./routes/fhirRoutes");
+
+const dashboardRoutes =
+    require("./routes/dashboardRoutes");
+
+const analyticsRoutes =
+    require("./routes/analyticsRoutes");
 
 
 // =====================================================
-// MIDDLEWARE
-// =====================================================
-
-app.use(express.json());
-
-
-// =====================================================
-// ROOT ROUTE
+// HEALTH CHECK
 // =====================================================
 
 app.get("/", (req, res) => {
-    res.json({
+    res.status(200).json({
         success: true,
         message: "NAMASTE EHR Backend is running"
     });
@@ -67,6 +78,13 @@ app.use("/api/dashboard", dashboardRoutes);
 
 
 // =====================================================
+// ANALYTICS
+// =====================================================
+
+app.use("/api/analytics", analyticsRoutes);
+
+
+// =====================================================
 // EHR APIs
 // =====================================================
 
@@ -74,52 +92,49 @@ app.use("/api/patients", patientRoutes);
 
 app.use("/api/patients", patientRecordRoutes);
 
-app.use("/api/patients", diagnosisRoutes);
+app.use("/api/diagnoses", diagnosisRoutes);
 
-app.use("/api/patients", encounterRoutes);
+app.use("/api/diagnosis-history", diagnosisHistoryRoutes);
 
-app.use("/api/patients", prescriptionRoutes);
+app.use("/api/diagnosis-summary", diagnosisSummaryRoutes);
 
-app.use("/api/patients", medicalHistoryRoutes);
+app.use("/api/prescriptions", prescriptionRoutes);
 
-app.use("/api/patients", allergyRoutes);
+app.use("/api/medication-history", medicationHistoryRoutes);
 
-app.use("/api/patients", vitalSignsRoutes);
+app.use("/api/procedures", procedureRoutes);
 
-app.use("/api/patients", labReportRoutes);
+app.use("/api/allergies", allergyRoutes);
 
-app.use("/api/patients", immunizationRoutes);
+app.use("/api/vital-signs", vitalSignsRoutes);
 
-app.use("/api/patients", clinicalNoteRoutes);
+app.use("/api/lab-reports", labReportRoutes);
 
-app.use("/api/patients", familyHistoryRoutes);
+app.use("/api/clinical-notes", clinicalNoteRoutes);
 
-app.use("/api/patients", socialHistoryRoutes);
+app.use("/api/clinical-summary", clinicalSummaryRoutes);
 
-app.use("/api/patients", surgicalHistoryRoutes);
+app.use("/api/encounters", encounterRoutes);
 
-app.use("/api/patients", medicationHistoryRoutes);
+app.use("/api/family-history", familyHistoryRoutes);
 
-app.use("/api/patients", procedureRoutes);
+app.use("/api/medical-history", medicalHistoryRoutes);
 
-app.use("/api/patients", diagnosisHistoryRoutes);
+app.use("/api/social-history", socialHistoryRoutes);
 
-app.use("/api/patients", diagnosisSummaryRoutes);
+app.use("/api/surgical-history", surgicalHistoryRoutes);
+
+app.use("/api/immunizations", immunizationRoutes);
 
 
 // =====================================================
-// NAMASTE TERMINOLOGY
+// NAMASTE APIs
 // =====================================================
 
 app.use(
     "/api/namaste-terminology",
     namasteTerminologyRoutes
 );
-
-
-// =====================================================
-// NAMASTE ↔ ICD-11 MAPPING
-// =====================================================
 
 app.use(
     "/api/namaste-icd-mappings",
@@ -128,7 +143,7 @@ app.use(
 
 
 // =====================================================
-// EHR INTEROPERABILITY
+// INTEROPERABILITY
 // =====================================================
 
 app.use(
@@ -138,17 +153,7 @@ app.use(
 
 
 // =====================================================
-// UNIFIED CLINICAL SUMMARY
-// =====================================================
-
-app.use(
-    "/api/clinical-summary",
-    clinicalSummaryRoutes
-);
-
-
-// =====================================================
-// FHIR-STYLE EHR EXCHANGE
+// FHIR
 // =====================================================
 
 app.use(
@@ -164,13 +169,23 @@ app.use(
 app.use((req, res) => {
     res.status(404).json({
         success: false,
-        message: "Route not found"
+        message: "API endpoint not found"
     });
 });
 
 
 // =====================================================
-// EXPORT APP
+// ERROR HANDLER
 // =====================================================
+
+app.use((err, req, res, next) => {
+    console.error("API ERROR:", err);
+
+    res.status(500).json({
+        success: false,
+        message: "Internal server error"
+    });
+});
+
 
 module.exports = app;
