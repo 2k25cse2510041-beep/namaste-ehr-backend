@@ -1,90 +1,170 @@
 const patientService = require("../services/patientService");
 
-const createPatient = (req, res) => {
-    const { name, dateOfBirth, gender, phone, email } = req.body;
+// =====================================================
+// CREATE PATIENT
+// =====================================================
 
-    if (!name || !dateOfBirth || !gender) {
-        return res.status(400).json({
+const createPatient = (req, res) => {
+    try {
+        const { name, dateOfBirth, gender, phone, email } = req.body || {};
+
+        if (!name || !dateOfBirth || !gender) {
+            return res.status(400).json({
+                success: false,
+                message: "name, dateOfBirth and gender are required"
+            });
+        }
+
+        const patient = patientService.createPatient({
+            name,
+            dateOfBirth,
+            gender,
+            phone,
+            email
+        });
+
+        return res.status(201).json({
+            success: true,
+            data: patient
+        });
+
+    } catch (error) {
+        console.error("CREATE PATIENT ERROR:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "name, dateOfBirth and gender are required"
+            message: "Failed to create patient",
+            error: error.message
         });
     }
-
-    const patient = patientService.createPatient({
-        name,
-        dateOfBirth,
-        gender,
-        phone,
-        email
-    });
-
-    res.status(201).json({
-        success: true,
-        data: patient
-    });
 };
+
+
+// =====================================================
+// GET ALL PATIENTS
+// =====================================================
 
 const getAllPatients = (req, res) => {
-    const patients = patientService.getAllPatients();
+    try {
+        const patients = patientService.getAllPatients();
 
-    res.status(200).json({
-        success: true,
-        count: patients.length,
-        data: patients
-    });
+        return res.status(200).json({
+            success: true,
+            count: patients.length,
+            data: patients
+        });
+
+    } catch (error) {
+        console.error("GET PATIENTS ERROR:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to get patients",
+            error: error.message
+        });
+    }
 };
+
+
+// =====================================================
+// GET PATIENT BY ID
+// =====================================================
 
 const getPatientById = (req, res) => {
-    const patient = patientService.getPatientById(req.params.id);
+    try {
+        const patient = patientService.getPatientById(req.params.id);
 
-    if (!patient) {
-        return res.status(404).json({
+        if (!patient) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: patient
+        });
+
+    } catch (error) {
+        console.error("GET PATIENT ERROR:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "Patient not found"
+            message: "Failed to get patient",
+            error: error.message
         });
     }
-
-    res.status(200).json({
-        success: true,
-        data: patient
-    });
 };
+
+
+// =====================================================
+// UPDATE PATIENT
+// =====================================================
 
 const updatePatient = (req, res) => {
-    const patient = patientService.updatePatient(
-        req.params.id,
-        req.body
-    );
+    try {
+        const patient = patientService.updatePatient(
+            req.params.id,
+            req.body
+        );
 
-    if (!patient) {
-        return res.status(404).json({
+        if (!patient) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: patient
+        });
+
+    } catch (error) {
+        console.error("UPDATE PATIENT ERROR:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "Patient not found"
+            message: "Failed to update patient",
+            error: error.message
         });
     }
-
-    res.status(200).json({
-        success: true,
-        data: patient
-    });
 };
+
+
+// =====================================================
+// DELETE PATIENT
+// =====================================================
 
 const deletePatient = (req, res) => {
-    const patient = patientService.deletePatient(req.params.id);
+    try {
+        const patient = patientService.deletePatient(req.params.id);
 
-    if (!patient) {
-        return res.status(404).json({
+        if (!patient) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Patient deleted successfully",
+            data: patient
+        });
+
+    } catch (error) {
+        console.error("DELETE PATIENT ERROR:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "Patient not found"
+            message: "Failed to delete patient",
+            error: error.message
         });
     }
-
-    res.status(200).json({
-        success: true,
-        message: "Patient deleted successfully",
-        data: patient
-    });
 };
+
 
 module.exports = {
     createPatient,
